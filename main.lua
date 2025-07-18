@@ -98,6 +98,9 @@ CommandTextLabel.TextXAlignment = Enum.TextXAlignment.Left
 -- Useful Variables
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 -- Less Useful Variables But Still
 local TweenInf = TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
 
@@ -189,6 +192,17 @@ UserInputService.InputEnded:Connect(function(Input, processed)
 	end
 end)
 
---Agile:CreateCommand("print <string>", function(string)
---	print(string)
---end)
+Agile:CreateCommand("speed <number>", function(number)
+	Character.Humanoid.WalkSpeed = number
+end)
+
+Agile:CreateCommand("jumppower <number>", function(number)
+	Character.Humanoid.JumpPower = number ::Humanoid
+end)
+
+Agile:CreateCommand("goto <player>", function(name)
+	local Player = game.Players:FindFirstChild(name)
+	if Player and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
+		Character.HumanoidRootPart.CFrame = Player.Character.HumanoidRootPart.CFrame
+	end
+end)
